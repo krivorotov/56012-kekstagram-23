@@ -4,13 +4,14 @@ function getRandomInteger(min, max) {
   }
   // Решение отсюда: https://learn.javascript.ru/task/random-min-max
   const rand = min + Math.random() * (max + 1 - min);
+
   return Math.floor(rand);
 }
 
 getRandomInteger();
 
 function checkStringLength (str, maxLength) {
-  return (str.length <= maxLength);
+  return str.length <= maxLength;
 }
 
 checkStringLength();
