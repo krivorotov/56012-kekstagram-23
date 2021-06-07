@@ -1,4 +1,23 @@
-//Скопировал функцию сюда, не получилось импортировать из другого файла, буду рад узнать как это сделать :)
+const MESSAGES_IN_COMMENTS = [
+  'Всё отлично!',
+  'В целом всё неплохо. Но не всё.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
+];
+
+const NAMES_IN_COMMENTS = ['Андрей', 'Виктор', 'Семен', 'Ярослав', 'Ольга', 'Мария', 'Игорь', 'Владимир', 'Светлана', 'Ирина'];
+
+const MIN_COMMENTS = 1;
+const MAX_COMMENTS = 5;
+
+const MIN_LIKES = 15;
+const MAX_LIKES = 100;
+
+const MIN_AVATAR = 1;
+const MAX_AVATAR = 6;
+
 function getRandomPositiveInteger (a, b) {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
@@ -11,34 +30,14 @@ function getRandomArrayElement (elements) {
   return elements[getRandomPositiveInteger(0, elements.length - 1)];
 }
 
-const MESSAGES_IN_COMMENTS = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
-];
-
-const NAMES_IN_COMMENTS = ['Андрей', 'Виктор', 'Семен', 'Ярослав', 'Ольга', 'Мария', 'Игорь', 'Владимир', 'Светлана', 'Ирина'];
-
-function createArrayOf25 (number) {
-  let array = [];
-  for (let i = 1; i <= 25; i++) {
-    array.push(i);
-  }
-
-  return array[number];
-}
-
 let commentsId = 1;
 
 function createRandomComments () {
-  let array = [];
-  for (let i = 0; i < getRandomPositiveInteger(1, 5); i++) {
+  const array = [];
+  for (let i = 0; i < getRandomPositiveInteger(MIN_COMMENTS, MAX_COMMENTS); i++) {
     array[i] = {
       id: commentsId++,
-      avatar: 'img/avatar-' + getRandomPositiveInteger(1, 6) + '.svg',
+      avatar: `img/avatar-${  getRandomPositiveInteger(MIN_AVATAR, MAX_AVATAR)  }.svg`,
       message: getRandomArrayElement(MESSAGES_IN_COMMENTS),
       name: getRandomArrayElement(NAMES_IN_COMMENTS),
     };
@@ -49,14 +48,18 @@ function createRandomComments () {
 
 function getImageContent (imageId) {
   return {
-    id: createArrayOf25(imageId),
-    url: 'photos/' + createArrayOf25(imageId) + '.jpg',
-    description: 'Перед вами фотография №' + createArrayOf25(imageId),
-    likes: getRandomPositiveInteger(15, 100),
+    id: imageId,
+    url: `photos/${  imageId  }.jpg`,
+    description: `Перед вами фотография №${  imageId  }`,
+    likes: getRandomPositiveInteger(MIN_LIKES, MAX_LIKES),
     comments: createRandomComments(),
   };
 }
 
-let number = 0;
+function getMocks (number) {
+  let count = 1;
 
-const photos = new Array(25).fill(null).map(() => getImageContent(number++));
+  return new Array(number).fill(null).map(() => getImageContent(count++));
+}
+
+getMocks(25);
