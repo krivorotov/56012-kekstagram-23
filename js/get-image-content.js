@@ -1,5 +1,5 @@
 import {getRandomPositiveInteger} from './utils/get-random-positive-integer.js';
-import {createRandomComments} from './comments.js';
+import {createRandomComments} from './сreate-random-comments.js';
 
 const MIN_LIKES = 15;
 const MAX_LIKES = 100;
