@@ -1,4 +1,4 @@
-import {getImageContent} from './get-images.js';
+import {getImageContent} from './get-image-content.js';
 
 function getMocks (number) {
   let count = 1;
