@@ -14,4 +14,10 @@ function getImageContent (imageId) {
   };
 }
 
-export {getImageContent};
+function getMocks (number) {
+  let count = 1;
+
+  return new Array(number).fill(null).map(() => getImageContent(count++));
+}
+
+export {getMocks};
