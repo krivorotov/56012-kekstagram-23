@@ -18,6 +18,6 @@ const getImageFragment = (data, template) => {
   return fragment;
 };
 
-const photos = getMocks(NUMBER_PHOTOS_PER_PAGE);
+export const photos = getMocks(NUMBER_PHOTOS_PER_PAGE);
 const imageFragment = getImageFragment(photos, imageTemplate);
 imageContainer.appendChild(imageFragment);
