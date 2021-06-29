@@ -1,5 +1,16 @@
+import {isEscEvent} from './utils/is-esc-event.js';
+
+const LOAD_COMMENTS_NUMBER = 5;
 const fullScreenImage = document.querySelector('.big-picture');
 const photoComments = fullScreenImage.querySelector('.social__comments');
+const bigImage = fullScreenImage.querySelector('.big-picture__img');
+const likesCount = fullScreenImage.querySelector('.likes-count');
+const photoCaption = fullScreenImage.querySelector('.social__caption');
+const visibleCommentsCount = fullScreenImage.querySelector('.visible-comments-count');
+const allCommentsCount = fullScreenImage.querySelector('.comments-count');
+const commentsLoader = fullScreenImage.querySelector('.comments-loader');
+const fullImageCloseButton = fullScreenImage.querySelector('.big-picture__cancel');
+let visibleComments;
 
 const getPictureComments = (comments) => {
   const fragment = document.createDocumentFragment();
@@ -14,13 +25,6 @@ const getPictureComments = (comments) => {
   return fragment;
 };
 
-const bigImage = fullScreenImage.querySelector('.big-picture__img');
-const likesCount = fullScreenImage.querySelector('.likes-count');
-const photoCaption = fullScreenImage.querySelector('.social__caption');
-const visibleCommentsCount = fullScreenImage.querySelector('.visible-comments-count');
-const allCommentsCount = fullScreenImage.querySelector('.comments-count');
-const commentsLoader = fullScreenImage.querySelector('.comments-loader');
-
 const closeFullImage = () => {
   fullScreenImage.classList.add('hidden');
   document.body.classList.remove('modal-open');
@@ -29,46 +33,38 @@ const closeFullImage = () => {
 };
 
 const onFullImageEscKeydown = (evt) => {
-  if (evt.key === 'Escape' || evt.key === 'Esc') {
+  if (isEscEvent(evt)) {
     evt.preventDefault();
     closeFullImage();
     document.removeEventListener('keydown', onFullImageEscKeydown);
   }
 };
 
-/*
-const isMoreComments = (visibleComments, allComments) => {
-  if (visibleComments.length === allComments.length) {
+const isMoreComments = (allComments, loadedComments) => {
+  if (loadedComments.length === allComments.length) {
     commentsLoader.classList.add('hidden');
   }
 };
-*/
 
 const showFullImage = (photo) => {
   bigImage.children[0].src = photo.url;
   likesCount.textContent = photo.likes;
   photoCaption.textContent = photo.description;
+
   allCommentsCount.textContent = photo.comments.length;
-  photo.comments.length > 5 ? visibleCommentsCount.textContent = 5 : visibleCommentsCount.textContent = allCommentsCount.textContent;
+  photo.comments.length > LOAD_COMMENTS_NUMBER ? visibleCommentsCount.textContent = LOAD_COMMENTS_NUMBER : visibleCommentsCount.textContent = allCommentsCount.textContent;
   photoComments.innerHTML = '';
-
-  let visibleComments = photo.comments.slice(0, 5);
+  visibleComments = photo.comments.slice(0, LOAD_COMMENTS_NUMBER);
   photoComments.appendChild(getPictureComments(visibleComments));
-  if (visibleComments.length === photo.comments.length) {
-    commentsLoader.classList.add('hidden');
-  }
-
-  console.log(visibleComments.length);
+  isMoreComments(photo.comments, visibleComments);
 
   commentsLoader.addEventListener('click', () => {
     photoComments.innerHTML = '';
-    visibleComments = photo.comments.slice(0, visibleComments.length + 5);
+    visibleComments = photo.comments.slice(0, visibleComments.length + LOAD_COMMENTS_NUMBER);
     photoComments.appendChild(getPictureComments(visibleComments));
     visibleCommentsCount.textContent = visibleComments.length;
-    console.log(visibleComments.length);
-    if (visibleComments.length === photo.comments.length) {
-      commentsLoader.classList.add('hidden');
-    }
+
+    isMoreComments(photo.comments, visibleComments);
   });
 
   fullScreenImage.classList.remove('hidden');
@@ -76,8 +72,6 @@ const showFullImage = (photo) => {
 
   document.addEventListener('keydown', onFullImageEscKeydown);
 };
-
-const fullImageCloseButton = fullScreenImage.querySelector('.big-picture__cancel');
 
 fullImageCloseButton.addEventListener('click', () => {
   closeFullImage();
