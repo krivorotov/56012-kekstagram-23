@@ -1,4 +1,5 @@
 import {isUnique} from './utils/is-unique.js';
+import {isEscEvent} from './utils/is-esc-event.js';
 
 const MAX_HASHTAG_NUMBER = 5;
 const uploadInput = document.querySelector('.img-upload__input');
@@ -20,7 +21,7 @@ const closeUploadImageForm = () => {
 };
 
 const onUploadImageEscKeydown = (evt) => {
-  if (evt.key === 'Escape' || evt.key === 'Esc') {
+  if (isEscEvent(evt)) {
     evt.preventDefault();
     closeUploadImageForm();
     document.removeEventListener('keydown', onUploadImageEscKeydown);
@@ -56,13 +57,13 @@ hashtagsInput.addEventListener('input', () => {
 });
 
 hashtagsInput.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape' || evt.key === 'Esc') {
+  if (isEscEvent(evt)) {
     evt.stopPropagation();
   }
 });
 
 imageComment.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape' || evt.key === 'Esc') {
+  if (isEscEvent(evt)) {
     evt.stopPropagation();
   }
 });

@@ -13,7 +13,7 @@ const MESSAGES_IN_COMMENTS = [
 const NAMES_IN_COMMENTS = ['Андрей', 'Виктор', 'Семен', 'Ярослав', 'Ольга', 'Мария', 'Игорь', 'Владимир', 'Светлана', 'Ирина'];
 
 const MIN_COMMENTS = 1;
-const MAX_COMMENTS = 5;
+const MAX_COMMENTS = 50;
 
 const MIN_AVATAR = 1;
 const MAX_AVATAR = 6;
