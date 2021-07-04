@@ -1,6 +1,7 @@
 import {imagePreview} from './scale-image.js';
 
 const effectsList = document.querySelector('.effects__list');
+const originalEffect = effectsList.querySelector('#effect-none');
 const sliderArea = document.querySelector('.img-upload__effect-level');
 const sliderElement = sliderArea.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
@@ -83,8 +84,7 @@ effectsList.addEventListener('change', setEffectHandler);
 
 const resetEffectSettings = () => {
   setEffect('none');
+  originalEffect.checked = true;
 };
 
 export {resetEffectSettings};
-
-//При скрытии через Esc остается выбрана радио кнопка
