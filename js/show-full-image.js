@@ -65,7 +65,7 @@ const showFullImage = (photo) => {
   photoCaption.textContent = photo.description;
 
   allCommentsCount.textContent = photo.comments.length;
-  photo.comments.length > LOAD_COMMENTS_NUMBER ? visibleCommentsCount.textContent = LOAD_COMMENTS_NUMBER : visibleCommentsCount.textContent = allCommentsCount.textContent;
+  visibleCommentsCount.textContent = photo.comments.length > LOAD_COMMENTS_NUMBER ? LOAD_COMMENTS_NUMBER : allCommentsCount.textContent;
   photoComments.innerHTML = '';
 
   photoComments.appendChild(getPictureComments(photo.comments.slice(0, LOAD_COMMENTS_NUMBER)));
