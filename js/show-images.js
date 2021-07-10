@@ -1,7 +1,5 @@
-import {getMocks} from './get-mocks.js';
 import {showFullImage} from './show-full-image.js';
 
-const NUMBER_PHOTOS_PER_PAGE = 25;
 const imageContainer = document.querySelector('.pictures');
 const imageTemplate = document.querySelector('#picture')
   .content
@@ -25,6 +23,9 @@ const getImageFragment = (data, template) => {
   return fragment;
 };
 
-export const photos = getMocks(NUMBER_PHOTOS_PER_PAGE);
-const imageFragment = getImageFragment(photos, imageTemplate);
-imageContainer.appendChild(imageFragment);
+const showImages = (photos) => {
+  const imageFragment = getImageFragment(photos, imageTemplate);
+  imageContainer.appendChild(imageFragment);
+};
+
+export {showImages};
