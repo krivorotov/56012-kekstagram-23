@@ -1,5 +1,6 @@
 import {isEscEvent} from './utils/is-esc-event.js';
 import {isOutsideClickEvent} from './utils/is-outside-click-event.js';
+import {closeUploadImageForm} from './upload-image-form.js';
 
 const successMessageTemplate = document.querySelector('#success')
   .content
@@ -34,6 +35,8 @@ const closeSuccessMessageHandler = () => {
 };
 
 function showSuccessMessage () {
+  closeUploadImageForm();
+
   const fragment = document.createDocumentFragment();
   const successMessage = successMessageTemplate.cloneNode(true);
   fragment.appendChild(successMessage);

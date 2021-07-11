@@ -3,6 +3,8 @@ import {isEscEvent} from './utils/is-esc-event.js';
 import {resetEffectSettings} from './set-effect.js';
 import {resetScaleSettings} from './scale-image.js';
 import {sendData} from './api.js';
+import {showSuccessMessage} from './show-success-message.js';
+import {showErrorMessage} from './show-error-message.js';
 
 const MAX_HASHTAG_NUMBER = 5;
 const uploadImageForm = document.querySelector('.img-upload__form');
@@ -74,12 +76,13 @@ imageComment.addEventListener('keydown', (evt) => {
   }
 });
 
-const setImageFormSubmit = (onSuccess) => {
+const setImageFormSubmit = () => {
   uploadImageForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     sendData(
-      () => onSuccess(),
+      () => showSuccessMessage(),
+      () => showErrorMessage(),
       new FormData(evt.target),
     );
   });

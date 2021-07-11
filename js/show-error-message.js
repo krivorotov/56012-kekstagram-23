@@ -1,5 +1,6 @@
 import {isEscEvent} from './utils/is-esc-event.js';
 import {isOutsideClickEvent} from './utils/is-outside-click-event.js';
+import {closeUploadImageForm} from './upload-image-form.js';
 
 const errorMessageTemplate = document.querySelector('#error')
   .content
@@ -34,6 +35,8 @@ const closeErrorMessageHandler = () => {
 };
 
 function showErrorMessage () {
+  closeUploadImageForm();
+
   const fragment = document.createDocumentFragment();
   const errorMessage = errorMessageTemplate.cloneNode(true);
   fragment.appendChild(errorMessage);

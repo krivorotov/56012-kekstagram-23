@@ -1,14 +1,10 @@
-import {showSuccessMessage} from './show-success-message.js';
-import {showErrorMessage} from './show-error-message.js';
-import {closeUploadImageForm} from './upload-image-form.js';
-
 const getData = (onSuccess, onFail) => {
   fetch('https://23.javascript.pages.academy/kekstagram/data')
     .then((response) => {
       if (response.ok) {
         return response;
       } else {
-        onFail('Не удалось загрузить фотографии. Попробуйте еще раз');
+        onFail();
       }
     })
     .then((response) => response.json())
@@ -16,11 +12,11 @@ const getData = (onSuccess, onFail) => {
       onSuccess(photos);
     })
     .catch(() => {
-      onFail('Не удалось загрузить фотографии. Попробуйте еще раз');
+      onFail();
     });
 };
 
-const sendData = (onSuccess, body) => {
+const sendData = (onSuccess, onFail, body) => {
   fetch(
     'https://23.javascript.pages.academy/kekstagram',
     {
@@ -31,14 +27,12 @@ const sendData = (onSuccess, body) => {
     .then((response) => {
       if (response.ok) {
         onSuccess();
-        showSuccessMessage();
       } else {
-        closeUploadImageForm();
-        showErrorMessage();
+        onFail();
       }
     })
     .catch(() => {
-      showErrorMessage();
+      onFail();
     });
 };
 
