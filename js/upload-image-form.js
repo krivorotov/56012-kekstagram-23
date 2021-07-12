@@ -2,10 +2,14 @@ import {isUnique} from './utils/is-unique.js';
 import {isEscEvent} from './utils/is-esc-event.js';
 import {resetEffectSettings} from './set-effect.js';
 import {resetScaleSettings} from './scale-image.js';
+import {sendData} from './api.js';
+import {showSuccessMessage} from './show-success-message.js';
+import {showErrorMessage} from './show-error-message.js';
 
 const MAX_HASHTAG_NUMBER = 5;
+const uploadImageForm = document.querySelector('.img-upload__form');
 const uploadInput = document.querySelector('.img-upload__input');
-const uploadImageForm = document.querySelector('.img-upload__overlay');
+const uploadImagePopup = document.querySelector('.img-upload__overlay');
 const uploadImageCloseButton = document.querySelector('.img-upload__cancel');
 const hashtagsInput = document.querySelector('.text__hashtags');
 const imageComment = document.querySelector('.text__description');
@@ -22,13 +26,13 @@ const onUploadImageEscKeydown = (evt) => {
 function openUploadImageForm () {
   resetScaleSettings();
   resetEffectSettings();
-  uploadImageForm.classList.remove('hidden');
+  uploadImagePopup.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onUploadImageEscKeydown);
 }
 
 function closeUploadImageForm () {
-  uploadImageForm.classList.add('hidden');
+  uploadImagePopup.classList.add('hidden');
   document.body.classList.remove('modal-open');
   uploadInput.value = null;
   document.removeEventListener('keydown', onUploadImageEscKeydown);
@@ -71,3 +75,17 @@ imageComment.addEventListener('keydown', (evt) => {
     evt.stopPropagation();
   }
 });
+
+const setImageFormSubmit = () => {
+  uploadImageForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => showSuccessMessage(),
+      () => showErrorMessage(),
+      new FormData(evt.target),
+    );
+  });
+};
+
+export {closeUploadImageForm, setImageFormSubmit};

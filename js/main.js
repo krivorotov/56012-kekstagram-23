@@ -1,5 +1,13 @@
-import './show-images.js';
-import './show-full-image.js';
-import './upload-image-form.js';
-import './scale-image.js';
-import './set-effect.js';
+import {showImages} from './show-images.js';
+import {getData} from './api.js';
+import {setImageFormSubmit} from './upload-image-form.js';
+import {showAlert} from './utils/show-alert.js';
+
+getData(
+  (photos) => {
+    showImages(photos);
+  },
+  () => showAlert('Не удалось загрузить фотографии. Попробуйте еще раз'),
+);
+
+setImageFormSubmit();
