@@ -1,18 +1,20 @@
-import {showImages, showRandomImages, showDiscussedImages} from './show-images.js';
+import {showImages} from './show-images.js';
 import {getData} from './api.js';
 import {setImageFormSubmit} from './upload-image-form.js';
 import {showAlert} from './utils/show-alert.js';
-import {setDefaultFilter, setRandomFilter, setDiscussedFilter} from './filters.js';
-import {debounce} from './utils/debounce.js';
+import {showFilters} from './filters.js';
+
+let photosData;
 
 getData(
   (photos) => {
+    photosData = photos;
     showImages(photos);
-    setDefaultFilter(debounce(() => showImages(photos)));
-    setRandomFilter(debounce(() => showRandomImages(photos)));
-    setDiscussedFilter(debounce(() => showDiscussedImages(photos)));
+    showFilters();
   },
   () => showAlert('Не удалось загрузить фотографии. Попробуйте еще раз'),
 );
 
 setImageFormSubmit();
+
+export {photosData};

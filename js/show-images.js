@@ -1,5 +1,5 @@
 import {showFullImage} from './show-full-image.js';
-import {getRandomArrayElement} from './utils/get-random-array-element.js';
+import {shuffle} from './utils/shuffle-array.js';
 
 const RANDOM_IMAGES_NUMBER = 10;
 const imageContainer = document.querySelector('.pictures');
@@ -30,19 +30,10 @@ const showImages = (photos) => {
   imageContainer.appendChild(imageFragment);
 };
 
-const getRandomImagesArray = (photos) => {
-  const array = [];
-  while (array.length !== RANDOM_IMAGES_NUMBER) {
-    const randomElement = getRandomArrayElement(photos);
-    if (!array.includes(randomElement)) {
-      array.push(randomElement);
-    }
-  }
-  return array;
-};
+const getFewRandomImages = (photos) => shuffle(photos).slice(0, RANDOM_IMAGES_NUMBER);
 
 const showRandomImages = (photos) => {
-  const photosArray = getRandomImagesArray(photos);
+  const photosArray = getFewRandomImages(photos);
   const imageFragment = getImageFragment(photosArray, imageTemplate);
   imageContainer.appendChild(imageFragment);
 };
