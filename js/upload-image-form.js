@@ -35,6 +35,8 @@ function closeUploadImageForm () {
   uploadImagePopup.classList.add('hidden');
   document.body.classList.remove('modal-open');
   uploadInput.value = null;
+  hashtagsInput.value = null;
+  imageComment.value = null;
   document.removeEventListener('keydown', onUploadImageEscKeydown);
 }
 
@@ -46,20 +48,35 @@ uploadImageCloseButton.addEventListener('click', () => {
   closeUploadImageForm();
 });
 
-hashtagsInput.addEventListener('input', () => {
-  const array = hashtagsInput.value.split(' ');
+const showValidityError = (input) => {
+  input.style.borderColor = 'red';
+  input.style.borderWidth = '3px';
+};
 
-  for (let i = 0; i < array.length; i++) {
-    if (array.length > MAX_HASHTAG_NUMBER) {
+const hideValidityError = (input) => {
+  input.style.borderColor = '';
+  input.style.borderWidth = '';
+};
+
+hashtagsInput.addEventListener('input', () => {
+  const userHashtagsArray = hashtagsInput.value.split(' ');
+  const formattedArray = userHashtagsArray.map((hashtag) => hashtag.toLowerCase());
+
+  formattedArray.forEach((hashtag) => {
+    if (formattedArray.length > MAX_HASHTAG_NUMBER) {
       hashtagsInput.setCustomValidity(`Количество хэштегов не может превышать ${MAX_HASHTAG_NUMBER}`);
-    } else if (isUnique(array)) {
+      showValidityError(hashtagsInput);
+    } else if (isUnique(formattedArray)) {
       hashtagsInput.setCustomValidity('Нельзя использовать один хэш-тег дважды');
-    } else if (!correctHashtag.test(array[i])) {
+      showValidityError(hashtagsInput);
+    } else if (!correctHashtag.test(hashtag)) {
       hashtagsInput.setCustomValidity('Введен неправильный формат хэштега');
+      showValidityError(hashtagsInput);
     } else {
       hashtagsInput.setCustomValidity('');
+      hideValidityError(hashtagsInput);
     }
-  }
+  });
 
   hashtagsInput.reportValidity();
 });
