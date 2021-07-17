@@ -1,6 +1,6 @@
 import {debounce} from './utils/debounce.js';
 import {showImages, showRandomImages, showDiscussedImages} from './show-images.js';
-import {photosData} from './main.js';
+import {getImages} from './main.js';
 
 const filters = document.querySelector('.img-filters');
 const filtersButtons = filters.querySelectorAll('.img-filters__button');
@@ -37,13 +37,15 @@ const setDiscussedFilter = (cb) => {
 };
 
 const filterChangeHandler = (evt) => {
+  const imagesData = getImages();
+
   switch (evt.target.id) {
     case 'filter-default':
-      return setDefaultFilter(debounce(() => showImages(photosData)));
+      return setDefaultFilter(debounce(() => showImages(imagesData)));
     case 'filter-random':
-      return setRandomFilter(debounce(() => showRandomImages(photosData)));
+      return setRandomFilter(debounce(() => showRandomImages(imagesData)));
     case 'filter-discussed':
-      return setDiscussedFilter(debounce(() => showDiscussedImages(photosData)));
+      return setDiscussedFilter(debounce(() => showDiscussedImages(imagesData)));
   }
 };
 

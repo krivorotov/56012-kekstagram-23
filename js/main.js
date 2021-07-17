@@ -4,11 +4,13 @@ import {setImageFormSubmit} from './upload-image-form.js';
 import {showAlert} from './utils/show-alert.js';
 import {showFilters} from './filters.js';
 
-let photosData;
+let imagesData;
+
+const getImages = () => imagesData;
 
 getData(
   (photos) => {
-    photosData = photos;
+    imagesData = photos;
     showImages(photos);
     showFilters();
   },
@@ -17,4 +19,4 @@ getData(
 
 setImageFormSubmit();
 
-export {photosData};
+export {getImages};
