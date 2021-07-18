@@ -58,25 +58,25 @@ const hideValidityError = (input) => {
   input.style.borderWidth = '';
 };
 
+const checkElementValidity = (hashtags, validation) => hashtags.every((element) => validation.test(element));
+
 hashtagsInput.addEventListener('input', () => {
   const userHashtagsArray = hashtagsInput.value.split(' ');
   const formattedArray = userHashtagsArray.map((hashtag) => hashtag.toLowerCase());
 
-  formattedArray.forEach((hashtag) => {
-    if (formattedArray.length > MAX_HASHTAG_NUMBER) {
-      hashtagsInput.setCustomValidity(`Количество хэштегов не может превышать ${MAX_HASHTAG_NUMBER}`);
-      showValidityError(hashtagsInput);
-    } else if (isUnique(formattedArray)) {
-      hashtagsInput.setCustomValidity('Нельзя использовать один хэш-тег дважды');
-      showValidityError(hashtagsInput);
-    } else if (!correctHashtag.test(hashtag)) {
-      hashtagsInput.setCustomValidity('Введен неправильный формат хэштега');
-      showValidityError(hashtagsInput);
-    } else {
-      hashtagsInput.setCustomValidity('');
-      hideValidityError(hashtagsInput);
-    }
-  });
+  if (formattedArray.length > MAX_HASHTAG_NUMBER) {
+    hashtagsInput.setCustomValidity(`Количество хэштегов не может превышать ${MAX_HASHTAG_NUMBER}`);
+    showValidityError(hashtagsInput);
+  } else if (isUnique(formattedArray)) {
+    hashtagsInput.setCustomValidity('Нельзя использовать один хэш-тег дважды');
+    showValidityError(hashtagsInput);
+  } else if (!checkElementValidity(formattedArray, correctHashtag)) {
+    hashtagsInput.setCustomValidity('Введен неправильный формат хэштега');
+    showValidityError(hashtagsInput);
+  } else {
+    hashtagsInput.setCustomValidity('');
+    hideValidityError(hashtagsInput);
+  }
 
   hashtagsInput.reportValidity();
 });
