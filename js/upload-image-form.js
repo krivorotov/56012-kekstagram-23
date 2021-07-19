@@ -7,19 +7,29 @@ import {showSuccessMessage} from './show-success-message.js';
 import {showErrorMessage} from './show-error-message.js';
 
 const MAX_HASHTAG_NUMBER = 5;
+
 const uploadImageForm = document.querySelector('.img-upload__form');
 const uploadInput = document.querySelector('.img-upload__input');
 const uploadImagePopup = document.querySelector('.img-upload__overlay');
 const uploadImageCloseButton = document.querySelector('.img-upload__cancel');
 const hashtagsInput = document.querySelector('.text__hashtags');
 const imageComment = document.querySelector('.text__description');
+
 const correctHashtag = /^#[A-Za-zА-Яа-я0-9]{1,19}$/;
+
+function closeUploadImageForm () {
+  uploadImagePopup.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  uploadInput.value = null;
+  hashtagsInput.value = null;
+  imageComment.value = null;
+}
 
 const onUploadImageEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
-    // eslint-disable-next-line no-use-before-define
     closeUploadImageForm();
+    document.removeEventListener('keydown', onUploadImageEscKeydown);
   }
 };
 
@@ -31,22 +41,9 @@ function openUploadImageForm () {
   document.addEventListener('keydown', onUploadImageEscKeydown);
 }
 
-function closeUploadImageForm () {
-  uploadImagePopup.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  uploadInput.value = null;
-  hashtagsInput.value = null;
-  imageComment.value = null;
-  document.removeEventListener('keydown', onUploadImageEscKeydown);
-}
+uploadInput.addEventListener('change', openUploadImageForm);
 
-uploadInput.addEventListener('change', () => {
-  openUploadImageForm();
-});
-
-uploadImageCloseButton.addEventListener('click', () => {
-  closeUploadImageForm();
-});
+uploadImageCloseButton.addEventListener('click', closeUploadImageForm);
 
 const showValidityError = (input) => {
   input.style.borderColor = 'red';
@@ -81,25 +78,23 @@ hashtagsInput.addEventListener('input', () => {
   hashtagsInput.reportValidity();
 });
 
-hashtagsInput.addEventListener('keydown', (evt) => {
+const forbidEscape = (evt) => {
   if (isEscEvent(evt)) {
     evt.stopPropagation();
   }
-});
+};
 
-imageComment.addEventListener('keydown', (evt) => {
-  if (isEscEvent(evt)) {
-    evt.stopPropagation();
-  }
-});
+hashtagsInput.addEventListener('keydown', forbidEscape);
+
+imageComment.addEventListener('keydown',  forbidEscape);
 
 const setImageFormSubmit = () => {
   uploadImageForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     sendData(
-      () => showSuccessMessage(),
-      () => showErrorMessage(),
+      showSuccessMessage,
+      showErrorMessage,
       new FormData(evt.target),
     );
   });

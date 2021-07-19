@@ -9,30 +9,30 @@ const defaultFilter = filters.querySelector('#filter-default');
 const randomFilter = filters.querySelector('#filter-random');
 const discussedFilter = filters.querySelector('#filter-discussed');
 
-const showFilters = () => {
-  filters.classList.remove('img-filters--inactive');
-};
+const showFilters = () => filters.classList.remove('img-filters--inactive');
 
 const changeActiveButton = (activeFilter) => {
   filtersButtons.forEach((btn) => btn.classList.remove('img-filters__button--active'));
   activeFilter.classList.add('img-filters__button--active');
 };
 
+const removePictureElements = () => document.querySelectorAll('.picture').forEach((el) => el.remove());
+
 const setDefaultFilter = (cb) => {
   changeActiveButton(defaultFilter);
-  document.querySelectorAll('.picture').forEach((el) => el.remove());
+  removePictureElements();
   cb();
 };
 
 const setRandomFilter = (cb) => {
   changeActiveButton(randomFilter);
-  document.querySelectorAll('.picture').forEach((el) => el.remove());
+  removePictureElements();
   cb();
 };
 
 const setDiscussedFilter = (cb) => {
   changeActiveButton(discussedFilter);
-  document.querySelectorAll('.picture').forEach((el) => el.remove());
+  removePictureElements();
   cb();
 };
 

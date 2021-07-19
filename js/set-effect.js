@@ -5,6 +5,7 @@ const originalEffect = effectsList.querySelector('#effect-none');
 const sliderArea = document.querySelector('.img-upload__effect-level');
 const sliderElement = sliderArea.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
+
 let currentEffect;
 let measure;
 

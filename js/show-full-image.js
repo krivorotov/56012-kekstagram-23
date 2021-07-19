@@ -1,6 +1,7 @@
 import {isEscEvent} from './utils/is-esc-event.js';
 
 const LOAD_COMMENTS_NUMBER = 5;
+
 const fullScreenImage = document.querySelector('.big-picture');
 const photoComments = fullScreenImage.querySelector('.social__comments');
 const bigImage = fullScreenImage.querySelector('.big-picture__img');
@@ -10,6 +11,7 @@ const visibleCommentsCount = fullScreenImage.querySelector('.visible-comments-co
 const allCommentsCount = fullScreenImage.querySelector('.comments-count');
 const commentsLoader = fullScreenImage.querySelector('.comments-loader');
 const fullImageCloseButton = fullScreenImage.querySelector('.big-picture__cancel');
+
 let currentCommentsNumber;
 let currentComments = [];
 

@@ -6,35 +6,29 @@ const errorMessageTemplate = document.querySelector('#error')
   .content
   .querySelector('.error');
 
+const closeErrorMessage = () => document.querySelector('.error').remove();
+
 const onErrorMessageEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
-    // eslint-disable-next-line no-use-before-define
     closeErrorMessage();
+    document.removeEventListener('keydown', onErrorMessageEscKeydown);
   }
 };
 
 const onErrorMessageOutsideClick = (evt) => {
   if (isOutsideClickEvent(evt, 'error__inner')) {
-    // eslint-disable-next-line no-use-before-define
     closeErrorMessage();
+    document.removeEventListener('click', onErrorMessageOutsideClick);
   }
 };
 
-function closeErrorMessage () {
-  document.querySelector('.error').remove();
-  document.removeEventListener('keydown', onErrorMessageEscKeydown);
-  document.removeEventListener('click', onErrorMessageOutsideClick);
-}
-
 const closeErrorMessageHandler = () => {
   const closeErrorMessageButton = document.querySelector('.error__button');
-  closeErrorMessageButton.addEventListener('click', () => {
-    closeErrorMessage();
-  });
+  closeErrorMessageButton.addEventListener('click', closeErrorMessage);
 };
 
-function showErrorMessage () {
+const showErrorMessage = () => {
   closeUploadImageForm();
 
   const fragment = document.createDocumentFragment();
@@ -44,7 +38,8 @@ function showErrorMessage () {
 
   document.addEventListener('keydown', onErrorMessageEscKeydown);
   document.addEventListener('click', onErrorMessageOutsideClick);
+
   closeErrorMessageHandler();
-}
+};
 
 export {showErrorMessage};

@@ -2,6 +2,7 @@ import {showFullImage} from './show-full-image.js';
 import {shuffle} from './utils/shuffle-array.js';
 
 const RANDOM_IMAGES_NUMBER = 10;
+
 const imageContainer = document.querySelector('.pictures');
 const imageTemplate = document.querySelector('#picture')
   .content
@@ -11,9 +12,8 @@ const getImageFragment = (data, template) => {
   const fragment = document.createDocumentFragment();
   data.forEach((photo) => {
     const {url, likes, comments} = photo;
-    const imageSampleHandler = () => {
-      showFullImage(photo);
-    };
+    const imageSampleHandler = () => showFullImage(photo);
+
     const imageSample = template.cloneNode(true);
     imageSample.querySelector('.picture__img').src = url;
     imageSample.querySelector('.picture__likes').textContent = likes;
