@@ -6,35 +6,29 @@ const successMessageTemplate = document.querySelector('#success')
   .content
   .querySelector('.success');
 
+const closeSuccessMessage = () => document.querySelector('.success').remove();
+
 const onSuccessMessageEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
-    // eslint-disable-next-line no-use-before-define
     closeSuccessMessage();
+    document.removeEventListener('keydown', onSuccessMessageEscKeydown);
   }
 };
 
 const onSuccessMessageOutsideClick = (evt) => {
   if (isOutsideClickEvent(evt, 'success__inner')) {
-    // eslint-disable-next-line no-use-before-define
     closeSuccessMessage();
+    document.removeEventListener('click', onSuccessMessageOutsideClick);
   }
 };
 
-function closeSuccessMessage () {
-  document.querySelector('.success').remove();
-  document.removeEventListener('keydown', onSuccessMessageEscKeydown);
-  document.removeEventListener('click', onSuccessMessageOutsideClick);
-}
-
 const closeSuccessMessageHandler = () => {
   const closeSuccessMessageButton = document.querySelector('.success__button');
-  closeSuccessMessageButton.addEventListener('click', () => {
-    closeSuccessMessage();
-  });
+  closeSuccessMessageButton.addEventListener('click', closeSuccessMessage);
 };
 
-function showSuccessMessage () {
+const showSuccessMessage = () => {
   closeUploadImageForm();
 
   const fragment = document.createDocumentFragment();
@@ -44,7 +38,8 @@ function showSuccessMessage () {
 
   document.addEventListener('keydown', onSuccessMessageEscKeydown);
   document.addEventListener('click', onSuccessMessageOutsideClick);
+
   closeSuccessMessageHandler();
-}
+};
 
 export {showSuccessMessage};

@@ -1,6 +1,6 @@
-const isUnique = (arr) => {
-  for (let i = 0; i < arr.length; i++) {
-    if (arr.indexOf(arr[i]) !== i) {
+const isUnique = (array) => {
+  for (let i = 0; i < array.length; i++) {
+    if (array.indexOf(array[i]) !== i) {
       return true;
     }
   }
