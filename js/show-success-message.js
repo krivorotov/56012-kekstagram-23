@@ -6,7 +6,12 @@ const successMessageTemplate = document.querySelector('#success')
   .content
   .querySelector('.success');
 
-const onSuccessMessageClose = () => document.querySelector('.success').remove();
+const onSuccessMessageClose = () => {
+  const successMessagePopup = document.querySelector('.success');
+  if (successMessagePopup) {
+    successMessagePopup.remove();
+  }
+};
 
 const onSuccessMessageEscKeydown = (evt) => {
   if (isEscEvent(evt)) {

@@ -6,7 +6,12 @@ const errorMessageTemplate = document.querySelector('#error')
   .content
   .querySelector('.error');
 
-const onErrorMessageClose = () => document.querySelector('.error').remove();
+const onErrorMessageClose = () => {
+  const errorMessagePopup = document.querySelector('.error');
+  if (errorMessagePopup) {
+    errorMessagePopup.remove();
+  }
+};
 
 const onErrorMessageEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
