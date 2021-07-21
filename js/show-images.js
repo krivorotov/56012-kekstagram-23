@@ -12,13 +12,15 @@ const getImageFragment = (data, template) => {
   const fragment = document.createDocumentFragment();
   data.forEach((photo) => {
     const {url, likes, comments} = photo;
-    const imageSampleHandler = () => showFullImage(photo);
 
     const imageSample = template.cloneNode(true);
     imageSample.querySelector('.picture__img').src = url;
     imageSample.querySelector('.picture__likes').textContent = likes;
     imageSample.querySelector('.picture__comments').textContent = comments.length;
-    imageSample.addEventListener('click', imageSampleHandler);
+
+    imageSample.addEventListener('click', () => {
+      showFullImage(photo);
+    });
     fragment.appendChild(imageSample);
   });
 

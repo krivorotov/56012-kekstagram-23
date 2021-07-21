@@ -16,34 +16,35 @@ const hashtagsInput = document.querySelector('.text__hashtags');
 const imageComment = document.querySelector('.text__description');
 
 const correctHashtag = /^#[A-Za-zА-Яа-я0-9]{1,19}$/;
+const spaceRegex = /\s+/;
 
-function closeUploadImageForm () {
+const onUploadImageFormClose = () => {
   uploadImagePopup.classList.add('hidden');
   document.body.classList.remove('modal-open');
   uploadInput.value = null;
   hashtagsInput.value = null;
   imageComment.value = null;
-}
+};
 
 const onUploadImageEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
-    closeUploadImageForm();
+    onUploadImageFormClose();
     document.removeEventListener('keydown', onUploadImageEscKeydown);
   }
 };
 
-function openUploadImageForm () {
+const onUploadImageFormOpen = () => {
   resetScaleSettings();
   resetEffectSettings();
   uploadImagePopup.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onUploadImageEscKeydown);
-}
+};
 
-uploadInput.addEventListener('change', openUploadImageForm);
+uploadInput.addEventListener('change', onUploadImageFormOpen);
 
-uploadImageCloseButton.addEventListener('click', closeUploadImageForm);
+uploadImageCloseButton.addEventListener('click', onUploadImageFormClose);
 
 const showValidityError = (input) => {
   input.style.borderColor = 'red';
@@ -58,16 +59,15 @@ const hideValidityError = (input) => {
 const checkElementValidity = (hashtags, validation) => hashtags.every((element) => validation.test(element));
 
 hashtagsInput.addEventListener('input', () => {
-  const userHashtagsArray = hashtagsInput.value.split(' ');
-  const formattedArray = userHashtagsArray.map((hashtag) => hashtag.toLowerCase());
+  const hashtagsArray = hashtagsInput.value.toLowerCase().split(spaceRegex);
 
-  if (formattedArray.length > MAX_HASHTAG_NUMBER) {
+  if (hashtagsArray.length > MAX_HASHTAG_NUMBER) {
     hashtagsInput.setCustomValidity(`Количество хэштегов не может превышать ${MAX_HASHTAG_NUMBER}`);
     showValidityError(hashtagsInput);
-  } else if (isUnique(formattedArray)) {
+  } else if (isUnique(hashtagsArray)) {
     hashtagsInput.setCustomValidity('Нельзя использовать один хэш-тег дважды');
     showValidityError(hashtagsInput);
-  } else if (!checkElementValidity(formattedArray, correctHashtag)) {
+  } else if (!checkElementValidity(hashtagsArray, correctHashtag)) {
     hashtagsInput.setCustomValidity('Введен неправильный формат хэштега');
     showValidityError(hashtagsInput);
   } else {
@@ -78,15 +78,15 @@ hashtagsInput.addEventListener('input', () => {
   hashtagsInput.reportValidity();
 });
 
-const forbidEscape = (evt) => {
+const onEscapeForbid = (evt) => {
   if (isEscEvent(evt)) {
     evt.stopPropagation();
   }
 };
 
-hashtagsInput.addEventListener('keydown', forbidEscape);
+hashtagsInput.addEventListener('keydown', onEscapeForbid);
 
-imageComment.addEventListener('keydown',  forbidEscape);
+imageComment.addEventListener('keydown',  onEscapeForbid);
 
 const setImageFormSubmit = () => {
   uploadImageForm.addEventListener('submit', (evt) => {
@@ -100,4 +100,4 @@ const setImageFormSubmit = () => {
   });
 };
 
-export {closeUploadImageForm, setImageFormSubmit};
+export {onUploadImageFormClose, setImageFormSubmit};

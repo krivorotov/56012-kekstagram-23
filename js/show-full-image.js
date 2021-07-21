@@ -41,7 +41,7 @@ const closeFullImage = () => {
   commentsLoader.classList.remove('hidden');
 };
 
-const commentLoaderHandler = () => {
+const onCommentLoaderClick = () => {
   photoComments.innerHTML = '';
 
   currentCommentsNumber += LOAD_COMMENTS_NUMBER;
@@ -57,7 +57,7 @@ const onFullImageEscKeydown = (evt) => {
     evt.preventDefault();
     closeFullImage();
     document.removeEventListener('keydown', onFullImageEscKeydown);
-    document.removeEventListener('keydown', commentLoaderHandler);
+    document.removeEventListener('keydown', onCommentLoaderClick);
   }
 };
 
@@ -75,7 +75,7 @@ const showFullImage = (photo) => {
 
   currentCommentsNumber = LOAD_COMMENTS_NUMBER;
   currentComments = photo.comments;
-  commentsLoader.addEventListener('click', commentLoaderHandler);
+  commentsLoader.addEventListener('click', onCommentLoaderClick);
 
   fullScreenImage.classList.remove('hidden');
   document.body.classList.add('modal-open');

@@ -36,7 +36,7 @@ const setDiscussedFilter = (cb) => {
   cb();
 };
 
-const filterChangeHandler = (evt) => {
+const onFilterChange = (evt) => {
   const imagesData = getImages();
 
   switch (evt.target.id) {
@@ -49,6 +49,6 @@ const filterChangeHandler = (evt) => {
   }
 };
 
-filtersForm.addEventListener('click', filterChangeHandler);
+filtersForm.addEventListener('click', onFilterChange);
 
 export {showFilters, setDefaultFilter, setRandomFilter, setDiscussedFilter};
